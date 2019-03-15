@@ -134,6 +134,12 @@
             app:srcCompat="@drawable/call" />
 
         <ImageButton
+            android:id="@+id/save_button"
+            android:layout_width="92dp"
+            android:layout_height="wrap_content"
+            app:srcCompat="@drawable/contacts" />
+
+        <ImageButton
             android:id="@+id/hangup_button"
             android:layout_width="88dp"
             android:layout_height="48dp"

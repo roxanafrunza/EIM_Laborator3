@@ -13,12 +13,14 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
     private EditText phoneNumberEditText;
     private ImageButton callImageButton;
     private ImageButton hangupImageButton;
     private ImageButton deleteImageButton;
+    private ImageButton saveImageButton;
     private Button button_0;
     private Button button_1;
     private Button button_2;
@@ -32,7 +34,9 @@ public class MainActivity extends AppCompatActivity {
     private Button button_diez;
     private Button button_star;
 
+
     final public static int PERMISSION_REQUEST_CALL_PHONE = 1;
+    final public static int CONTACTS_MANAGER_REQUEST_CODE = 123;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +49,8 @@ public class MainActivity extends AppCompatActivity {
         hangupImageButton.setOnClickListener(hangupButtonClickListener);
         deleteImageButton = (ImageButton) findViewById(R.id.backspace);
         deleteImageButton.setOnClickListener(deleteButtonClickListener);
+        saveImageButton = (ImageButton) findViewById(R.id.save_button);
+        saveImageButton.setOnClickListener(contactButtonClickListener);
 
         button_0 = (Button) findViewById(R.id.button_0);
         button_0.setOnClickListener(genericButtonClickListener);
@@ -125,6 +131,22 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public void onClick(View view) {
         finish();
+
+        }
+    }
+
+    private ContactButtonClickListener contactButtonClickListener = new ContactButtonClickListener();
+    private class ContactButtonClickListener implements  View.OnClickListener {
+        @Override
+        public void onClick(View view) {
+            String phoneNumber = phoneNumberEditText.getText().toString();
+            if (phoneNumber.length() > 0) {
+                Intent intent = new Intent("ro.pub.cs.systems.eim.lab04.contactsmanager.intent.action.MainActivity");
+                intent.putExtra("ro.pub.cs.systems.eim.lab04.contactsmanager.PHONE_NUMBER_KEY", phoneNumber);
+                startActivityForResult(intent, CONTACTS_MANAGER_REQUEST_CODE);
+            } else {
+                Toast.makeText(getApplication(), getResources().getString(R.string.phone_error), Toast.LENGTH_LONG).show();
+            }
 
         }
     }
